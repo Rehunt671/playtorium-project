@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres
+    container_name: playtorium_postgres
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_NAME}
+    volumes:
+      - playtorium_data:/var/lib/postgresql/data
+      - ./db/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/migrations/mock_data.sql:/docker-entrypoint-initdb.d/mock_data.sql
+    networks:
+      - playtorium_net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: playtorium_pgadmin4
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PG_ADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PG_ADMIN_PASSWORD}
+    volumes:
+      - playtorium_pgadmin_data:/var/lib/pgadmin
+    networks:
+      - playtorium_net
+
+volumes:
+  playtorium_data:
+  playtorium_pgadmin_data:
+
+networks:
+  playtorium_net:
+    external: false
