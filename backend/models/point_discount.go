@@ -1,8 +1,6 @@
 package models
 
-import "gorm.io/gorm"
-
 type PointDiscount struct {
-	gorm.Model
+	ID    uint    `json:"id" gorm:"primaryKey"`
 	Point float64 `json:"point"` // 1 point = 1 THB
 }

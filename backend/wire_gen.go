@@ -25,7 +25,8 @@ func InitializeApp() (*gin.Engine, func(), error) {
 	cartHandler := handlers.NewCartHandler(cartService)
 	cartItemService := services.NewCartItemService(gormDB)
 	cartItemHandler := handlers.NewCartItemHandler(cartItemService)
-	engine, err := NewApp(authHandler, cartHandler, cartItemHandler)
+	discountHandler := handlers.NewDiscountHandler(discountService)
+	engine, err := NewApp(authHandler, cartHandler, cartItemHandler, discountHandler)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -39,6 +40,6 @@ var AppSet = wire.NewSet(
 	NewApp, db.NewPostgresDatabase,
 )
 
-var HandlerSet = wire.NewSet(handlers.NewAuthHandler, handlers.NewCartHandler, handlers.NewCartItemHandler)
+var HandlerSet = wire.NewSet(handlers.NewAuthHandler, handlers.NewCartHandler, handlers.NewCartItemHandler, handlers.NewDiscountHandler)
 
 var ServiceSet = wire.NewSet(services.NewAuthService, services.NewCartService, services.NewCartItemService, services.NewDiscountService)

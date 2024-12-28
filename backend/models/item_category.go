@@ -1,8 +1,6 @@
 package models
 
-import "gorm.io/gorm"
-
 type ItemCategory struct {
-	gorm.Model
+	ID   uint   `json:"id" gorm:"primaryKey"`
 	Name string `json:"name,omitempty"`
 }

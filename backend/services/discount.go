@@ -9,6 +9,9 @@ import (
 
 type DiscountService interface {
 	ApplyDiscounts(cartItems []models.CartItem) (float64, int, error)
+	CreateDiscount(discount *models.Discount) error
+	UpdateDiscount(discount *models.Discount) error
+	DeleteDiscount(discountID uint) error
 }
 
 type DiscountServiceImpl struct {
@@ -17,6 +20,18 @@ type DiscountServiceImpl struct {
 
 func NewDiscountService(db *gorm.DB) DiscountService {
 	return &DiscountServiceImpl{db: db}
+}
+
+func (s *DiscountServiceImpl) CreateDiscount(discount *models.Discount) error {
+	return s.db.Create(discount).Error
+}
+
+func (s *DiscountServiceImpl) UpdateDiscount(discount *models.Discount) error {
+	return s.db.Updates(discount).Error
+}
+
+func (s *DiscountServiceImpl) DeleteDiscount(discountId uint) error {
+	return s.db.Delete(&models.Discount{}, discountId).Error
 }
 
 func (s *DiscountServiceImpl) ApplyDiscounts(cartItems []models.CartItem) (float64, int, error) {

@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(r *gin.Engine, authHandler handlers.AuthHandler, cartHandler handlers.CartHandler, cartItemHandler handlers.CartItemHandler) {
+func SetupRoutes(r *gin.Engine, authHandler handlers.AuthHandler, cartHandler handlers.CartHandler, cartItemHandler handlers.CartItemHandler, discountHandler handlers.DiscountHandler) {
 	r.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": "Welcome to the api v1",
@@ -17,4 +17,5 @@ func SetupRoutes(r *gin.Engine, authHandler handlers.AuthHandler, cartHandler ha
 	SetupAuthRouter(router, authHandler)
 	SetupCartRouter(router, cartHandler)
 	SetupCartItemRouter(router, cartItemHandler)
+	SetupDiscountRouter(router, discountHandler)
 }

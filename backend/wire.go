@@ -30,6 +30,7 @@ var HandlerSet = wire.NewSet(
 	handlers.NewAuthHandler,
 	handlers.NewCartHandler,
 	handlers.NewCartItemHandler,
+	handlers.NewDiscountHandler,
 )
 
 var ServiceSet = wire.NewSet(

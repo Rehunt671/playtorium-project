@@ -1,9 +1,7 @@
 package models
 
-import "gorm.io/gorm"
-
 type Item struct {
-	gorm.Model
+	ID             uint         `json:"id" gorm:"primaryKey"`
 	Name           string       `json:"name,omitempty"`
 	Price          float64      `json:"price,omitempty"`
 	ItemCategoryID uint         `json:"item_category_id,omitempty"`

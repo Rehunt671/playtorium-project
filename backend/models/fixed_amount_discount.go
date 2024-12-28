@@ -1,8 +1,6 @@
 package models
 
-import "gorm.io/gorm"
-
 type FixedAmountDiscount struct {
-	gorm.Model
+	ID     uint    `json:"id" gorm:"primaryKey"`
 	Amount float64 `json:"amount"`
 }

@@ -1,8 +1,6 @@
 package models
 
-import "gorm.io/gorm"
-
 type PercentageDiscount struct {
-	gorm.Model
+	ID         uint    `json:"id" gorm:"primaryKey"`
 	Percentage float64 `json:"percentage"`
 }

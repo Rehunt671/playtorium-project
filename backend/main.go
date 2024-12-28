@@ -18,6 +18,7 @@ func NewApp(
 	authHandler handlers.AuthHandler,
 	cartHandler handlers.CartHandler,
 	cartItemHandler handlers.CartItemHandler,
+	discountHandler handlers.DiscountHandler,
 ) (*gin.Engine, error) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
@@ -27,7 +28,7 @@ func NewApp(
 			AllowCredentials: true,
 		}),
 	)
-	routers.SetupRoutes(r, authHandler, cartHandler, cartItemHandler)
+	routers.SetupRoutes(r, authHandler, cartHandler, cartItemHandler , discountHandler)
 	return r, nil
 }
 
