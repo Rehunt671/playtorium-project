@@ -1,4 +1,4 @@
-# Project Readme
+# Playtorium Project
 
 ## Author
 Thanawin Saithong
