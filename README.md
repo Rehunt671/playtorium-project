@@ -9,11 +9,10 @@ Thanawin Saithong
 3. Configure campaign  
 
 ## Prerequisites
-1. Docker  
-2. Golang  
-3. Air CLI (for running Golang projects)  
-4. TypeScript  
-5. Docker  
+1. Golang  
+2. Air CLI (for running Golang projects)  
+3. TypeScript  
+4. Docker  
 
 ## Run Instructions
 1. **Setup Database and Mock Data**:  
