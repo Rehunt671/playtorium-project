@@ -17,18 +17,22 @@ import (
 func NewApp(
 	authHandler handlers.AuthHandler,
 	cartHandler handlers.CartHandler,
-	cartItemHandler handlers.CartItemHandler,
+	campaignHandler handlers.CampaignHandler,
 	discountHandler handlers.DiscountHandler,
+	discountCategoryHandler handlers.DiscountCategoryHandler,
+	itemHandler handlers.ItemHandler,
+	itemCategoryHandler handlers.ItemCategoryHandler,
+	userHandler handlers.UserHandler,
 ) (*gin.Engine, error) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
-	r.Use(
-		cors.New(cors.Config{
-			AllowOrigins:     []string{"*"},
-			AllowCredentials: true,
-		}),
-	)
-	routers.SetupRoutes(r, authHandler, cartHandler, cartItemHandler , discountHandler)
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // Allow frontend origin
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"}, // Allow content-type and authorization headers
+		AllowCredentials: true,
+	}))
+	routers.SetupRoutes(r, authHandler, cartHandler, campaignHandler, discountHandler, discountCategoryHandler, itemHandler, itemCategoryHandler, userHandler)
 	return r, nil
 }
 

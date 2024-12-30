@@ -29,13 +29,21 @@ var AppSet = wire.NewSet(
 var HandlerSet = wire.NewSet(
 	handlers.NewAuthHandler,
 	handlers.NewCartHandler,
-	handlers.NewCartItemHandler,
+	handlers.NewCampaignHandler,
 	handlers.NewDiscountHandler,
+	handlers.NewDiscountCategoryHandler,
+	handlers.NewItemHandler,
+	handlers.NewItemCategoryHandler,
+	handlers.NewUserHandler,
 )
 
 var ServiceSet = wire.NewSet(
 	services.NewAuthService,
 	services.NewCartService,
-	services.NewCartItemService,
+	services.NewCampaignService,
 	services.NewDiscountService,
+	services.NewDiscountCategoryService,
+	services.NewItemService,
+	services.NewItemCategoryService,
+	services.NewUserService,
 )

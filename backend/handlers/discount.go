@@ -11,6 +11,7 @@ import (
 )
 
 type DiscountHandler interface {
+	GetDiscounts(c *gin.Context)
 	CreateDiscount(c *gin.Context)
 	UpdateDiscount(c *gin.Context)
 	DeleteDiscount(c *gin.Context)
@@ -22,6 +23,16 @@ type discountHandlerImpl struct {
 
 func NewDiscountHandler(discountService services.DiscountService) DiscountHandler {
 	return &discountHandlerImpl{discountService: discountService}
+}
+
+func (h *discountHandlerImpl) GetDiscounts(c *gin.Context) {
+	discounts, err := h.discountService.GetDiscounts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, discounts)
 }
 
 func (h *discountHandlerImpl) CreateDiscount(c *gin.Context) {

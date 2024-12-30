@@ -23,10 +23,18 @@ func InitializeApp() (*gin.Engine, func(), error) {
 	authService := services.NewAuthService(gormDB, cartService)
 	authHandler := handlers.NewAuthHandler(authService)
 	cartHandler := handlers.NewCartHandler(cartService)
-	cartItemService := services.NewCartItemService(gormDB)
-	cartItemHandler := handlers.NewCartItemHandler(cartItemService)
+	campaignService := services.NewCampaignService(gormDB)
+	campaignHandler := handlers.NewCampaignHandler(campaignService)
 	discountHandler := handlers.NewDiscountHandler(discountService)
-	engine, err := NewApp(authHandler, cartHandler, cartItemHandler, discountHandler)
+	discountCategoryService := services.NewDiscountCategoryService(gormDB)
+	discountCategoryHandler := handlers.NewDiscountCategoryHandler(discountCategoryService)
+	itemService := services.NewItemService(gormDB)
+	itemHandler := handlers.NewItemHandler(itemService)
+	itemCategoryService := services.NewItemCategoryService(gormDB)
+	itemCategoryHandler := handlers.NewItemCategoryHandler(itemCategoryService)
+	userService := services.NewUserService(gormDB)
+	userHandler := handlers.NewUserHandler(authService, userService)
+	engine, err := NewApp(authHandler, cartHandler, campaignHandler, discountHandler, discountCategoryHandler, itemHandler, itemCategoryHandler, userHandler)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -40,6 +48,6 @@ var AppSet = wire.NewSet(
 	NewApp, db.NewPostgresDatabase,
 )
 
-var HandlerSet = wire.NewSet(handlers.NewAuthHandler, handlers.NewCartHandler, handlers.NewCartItemHandler, handlers.NewDiscountHandler)
+var HandlerSet = wire.NewSet(handlers.NewAuthHandler, handlers.NewCartHandler, handlers.NewCampaignHandler, handlers.NewDiscountHandler, handlers.NewDiscountCategoryHandler, handlers.NewItemHandler, handlers.NewItemCategoryHandler, handlers.NewUserHandler)
 
-var ServiceSet = wire.NewSet(services.NewAuthService, services.NewCartService, services.NewCartItemService, services.NewDiscountService)
+var ServiceSet = wire.NewSet(services.NewAuthService, services.NewCartService, services.NewCampaignService, services.NewDiscountService, services.NewDiscountCategoryService, services.NewItemService, services.NewItemCategoryService, services.NewUserService)

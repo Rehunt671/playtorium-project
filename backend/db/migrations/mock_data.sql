@@ -8,12 +8,13 @@ INSERT INTO item_categories (name) VALUES
 ('accessories'),
 ('electronics');
 
-INSERT INTO items (name, price, item_category_id, stock) VALUES
-('T-Shirt', 350, 1, 100),
-('Hat', 250, 2, 50),
-('Hoodie', 700, 1, 30),
-('Watch', 850, 3, 20),
-('Bag', 640, 2, 40);
+INSERT INTO items (name, price, item_category_id, stock, image_name, description) VALUES
+('T-Shirt', 350, 1, 100, 'tshirt.png', 'A comfortable cotton T-Shirt'),
+('Hat', 250, 2, 50, 'hat.png', 'A stylish hat for sunny days'),
+('Hoodie', 700, 1, 30, 'hoodie.png', 'A warm and cozy hoodie'),
+('Watch', 850, 3, 20, 'watch.png', 'A sleek and modern watch'),
+('Bag', 640, 2, 40, 'bag.png', 'A durable and spacious bag');
+
 
 INSERT INTO carts (user_id) VALUES
 (1),
@@ -34,13 +35,15 @@ INSERT INTO campaigns (name) VALUES
 ('FIXED_AMOUNT'),
 ('PERCENTAGE'),
 ('PERCENTAGE_CATEGORY'),
+('POINT'),
 ('SEASONAL');
 
 INSERT INTO campaign_on_discount_categories (campaign_id, discount_category_id) VALUES
 (1, 1),
 (2, 1),
 (3, 2),
-(4, 3);
+(4, 2),
+(5, 3);
 
 INSERT INTO fixed_amount_discounts (amount) VALUES
 (50);

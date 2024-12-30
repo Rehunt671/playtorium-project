@@ -9,6 +9,7 @@ import (
 func SetupDiscountRouter(r *gin.RouterGroup, discountHandler handlers.DiscountHandler) {
 	discountRouteV1 := r.Group("/v1/discounts")
 	{
+		discountRouteV1.GET("", discountHandler.GetDiscounts)
 		discountRouteV1.POST("", discountHandler.CreateDiscount)
 		discountRouteV1.PUT("", discountHandler.UpdateDiscount)
 		discountRouteV1.DELETE("/:id", discountHandler.DeleteDiscount)

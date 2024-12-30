@@ -8,6 +8,7 @@ import (
 )
 
 type DiscountService interface {
+	GetDiscounts() ([]models.Discount, error)
 	ApplyDiscounts(cartItems []models.CartItem) (float64, int, error)
 	CreateDiscount(discount *models.Discount) error
 	UpdateDiscount(discount *models.Discount) error
@@ -20,6 +21,14 @@ type DiscountServiceImpl struct {
 
 func NewDiscountService(db *gorm.DB) DiscountService {
 	return &DiscountServiceImpl{db: db}
+}
+
+func (s *DiscountServiceImpl) GetDiscounts() ([]models.Discount, error) {
+	var discounts []models.Discount
+	if err := s.db.Preload("FixedAmount").Preload("Percentage").Preload("PercentageCategory.ItemCategory").Preload("Seasonal").Preload("PointDiscount").Preload("DiscountCategory").Find(&discounts).Error; err != nil {
+		return nil, err
+	}
+	return discounts, nil
 }
 
 func (s *DiscountServiceImpl) CreateDiscount(discount *models.Discount) error {

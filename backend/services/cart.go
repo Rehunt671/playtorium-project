@@ -10,18 +10,22 @@ import (
 type CartService interface {
 	GetCartDetail(userID int) (*dtos.CartDetail, error)
 	CreateCart(cart *models.Cart) error
+	GetCartItemsByCartID(cartID int) ([]models.CartItem, error)
+	AddCartItem(cartItem *models.CartItem) error
+	UpdateCartItem(cartItem *models.CartItem) error
+	RemoveCartItem(cartItemId int) error
 }
 
-type CartServiceImpl struct {
+type cartServiceImpl struct {
 	db              *gorm.DB
 	discountService DiscountService
 }
 
 func NewCartService(db *gorm.DB, discountService DiscountService) CartService {
-	return &CartServiceImpl{db: db, discountService: discountService}
+	return &cartServiceImpl{db: db, discountService: discountService}
 }
 
-func (s *CartServiceImpl) GetCartDetail(userId int) (*dtos.CartDetail, error) {
+func (s *cartServiceImpl) GetCartDetail(userId int) (*dtos.CartDetail, error) {
 	var cart models.Cart
 	if err := s.db.Preload("Items.Item.ItemCategory").Where("user_id = ?", userId).First(&cart).Error; err != nil {
 		return nil, err
@@ -40,8 +44,45 @@ func (s *CartServiceImpl) GetCartDetail(userId int) (*dtos.CartDetail, error) {
 	return cartDetail, nil
 }
 
-func (s *CartServiceImpl) CreateCart(cart *models.Cart) error {
+func (s *cartServiceImpl) CreateCart(cart *models.Cart) error {
 	if err := s.db.Create(&cart).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *cartServiceImpl) GetCartItemsByCartID(cartId int) ([]models.CartItem, error) {
+	var cartItems []models.CartItem
+
+	err := s.db.Where("cart_id = ?", cartId).
+		Joins("JOIN items ON cart_items.item_id = items.id").
+		Order("items.name DESC").
+		Preload("Item").
+		Find(&cartItems).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return cartItems, nil
+}
+
+func (s *cartServiceImpl) AddCartItem(cartItem *models.CartItem) error {
+	if err := s.db.Create(cartItem).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *cartServiceImpl) UpdateCartItem(cartItem *models.CartItem) error {
+	if err := s.db.Save(cartItem).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *cartServiceImpl) RemoveCartItem(cartItemId int) error {
+	if err := s.db.Delete(&models.CartItem{}, cartItemId).Error; err != nil {
 		return err
 	}
 	return nil
